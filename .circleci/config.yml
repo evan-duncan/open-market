@@ -55,8 +55,8 @@ jobs:
                 ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
 
 
-deployment:
-  production:
-    branch: master
-    heroku:
-      appname: open-market-network
+    deployment:
+        production:
+            branch: master
+            heroku:
+                appname: open-market-network
