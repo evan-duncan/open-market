@@ -4,57 +4,55 @@
 #
 version: 2
 jobs:
-  build:
-    docker:
-        # specify the version you desire here
-        - image: circleci/php:7.1-browsers
-        
-        # Specify service dependencies here if necessary
-        # CircleCI maintains a library of pre-built images
-        # documented at https://circleci.com/docs/2.0/circleci-images/
-        # - image: circleci/mysql:9.4
+    build:
+        docker:
+            # specify the version you desire here
+            - image: circleci/php:7.1-browsers
+            
+            # Specify service dependencies here if necessary
+            # CircleCI maintains a library of pre-built images
+            # documented at https://circleci.com/docs/2.0/circleci-images/
+            # - image: circleci/mysql:9.4
 
-    working_directory: ~/repo
+        working_directory: ~/repo
 
-    environment:
-        CC_TEST_REPORTER_ID: b64a446f1ee4f69317245dd7219a1abe49bc038353b622200b1f49fb5b08839c
+        environment:
+            CC_TEST_REPORTER_ID: b64a446f1ee4f69317245dd7219a1abe49bc038353b622200b1f49fb5b08839c
 
-    steps:
-        - checkout
+        steps:
+            - checkout
 
-        # Download and cache dependencies
-        - restore_cache:
-            keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            # Download and cache dependencies
+            - restore_cache:
+                keys:
+                - v1-dependencies-{{ checksum "composer.json" }}
+                # fallback to using the latest cache if no exact match is found
+                - v1-dependencies-
 
-        - run: composer install -n --prefer-dist
-        - run: sudo cp .env.circleci .env
-        - run: sudo php artisan key:generate
+            - run: composer install -n --prefer-dist
+            - run: sudo cp .env.circleci .env
+            - run: sudo php artisan key:generate
 
-        - save_cache:
-            paths:
-            - ./vendor
-            key: v1-dependencies-{{ checksum "composer.json" }}
+            - save_cache:
+                paths:
+                - ./vendor
+                key: v1-dependencies-{{ checksum "composer.json" }}
 
-        - run:
-            name: Setup Code Climate test-reporter
-            command: |
-                curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-                chmod +x ./cc-test-reporter
+            - run:
+                name: Setup Code Climate test-reporter
+                command: |
+                    curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+                    chmod +x ./cc-test-reporter
 
-        - run: composer lint
+            - run: composer lint
 
-        - run:
-            name: Run tests
-            command: |
-                sudo docker-php-ext-enable xdebug
-                ./cc-test-reporter before-build
-                composer test -- --coverage-clover clover.xml --whitelist src/
-                ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
-
-
+            - run:
+                name: Run tests
+                command: |
+                    sudo docker-php-ext-enable xdebug
+                    ./cc-test-reporter before-build
+                    composer test -- --coverage-clover clover.xml --whitelist src/
+                    ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
     deployment:
         production:
             branch: master
