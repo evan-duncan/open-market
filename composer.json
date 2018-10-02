@@ -22,7 +22,8 @@
         "laravel/homestead": "^7.18",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
         "classmap": [
@@ -54,7 +55,9 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
-        ]
+        ],
+        "test": "phpunit tests/",
+        "lint": "phpcs --standard=PSR2 app tests"
     },
     "config": {
         "preferred-install": "dist",
