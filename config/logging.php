@@ -50,6 +50,7 @@ return [
     */
 
     'channels' => [
+        'default' => env('LOG_CHANNEL', 'stack'),
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],

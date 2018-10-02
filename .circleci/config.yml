@@ -53,3 +53,10 @@ jobs:
                 ./cc-test-reporter before-build
                 composer test -- --coverage-clover clover.xml --whitelist src/
                 ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+
+
+deployment:
+  production:
+    branch: master
+    heroku:
+      appname: open-market-network
