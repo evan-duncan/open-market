@@ -1,5 +1,6 @@
 {
     "name": "evan-duncan/open-market",
+    "version": "0.1.0",
     "description": "Your self-hosted, globally interconnected e-commerce community.",
     "keywords": [
         "self-hosted",
