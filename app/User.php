@@ -44,4 +44,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function store()
+    {
+        return $this->hasOne(Store::class);
+    }
+
+    public function country()
+    {
+        return $this->hasOne(Country::class);
+    }
+
+    public function language()
+    {
+        return $this->hasOne(Language::class);
+    }
+
+    public function currency()
+    {
+        return $this->hasOne(Currency::class);
+    }
 }
